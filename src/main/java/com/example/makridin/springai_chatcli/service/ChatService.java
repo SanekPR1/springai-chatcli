@@ -1,6 +1,8 @@
 package com.example.makridin.springai_chatcli.service;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
@@ -11,7 +13,9 @@ public class ChatService {
     private final ChatClient chatClient;
 
     public ChatService(ChatClient.Builder  builder) {
-        this.chatClient = builder.build();
+        this.chatClient = builder
+                .defaultAdvisors(new MessageChatMemoryAdvisor(new InMemoryChatMemory()))
+                .build();
     }
 
     public String getResponse(String message) {
